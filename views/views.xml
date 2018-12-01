@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+
+    <record id="planta_tree" model="ir.ui.view">
+      <field name="name">planta.tree</field>
+      <field name="model">planta</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="habitats"/>
+          <field name="cantidad"/>
+          <field name="coste_produccion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="planta_action" model="ir.actions.act_window">
+      <field name="name">Plantas</field>
+      <field name="res_model">planta</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="repoblaciones_main" name="Repoblaciones"/>
+    <menuitem id="repoblaciones_plantas" name="Plantas" parent="repoblaciones_main" action="planta_action" sequence="1"/>
+
+</odoo>

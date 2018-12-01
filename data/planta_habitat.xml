@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+	<record id="habitat_1" model="planta.habitat">
+		<field name="name">Costero</field>
+		<field name="descripcion">Proximidad a la costa. Niveles más altos de la habitual de sal en el terreno.</field>
+	</record>
+	<record id="habitat_2" model="planta.habitat">
+		<field name="name">Riberas</field>
+		<field name="descripcion">Proximo a corrientes de agua. Humedad ambiental más elevada de lo habitual.</field>
+	</record>
+	<record id="habitat_3" model="planta.habitat">
+		<field name="name">Monte</field>
+		<field name="descripcion">Terreno irregular. Retención de agua disminuye exponencialmente conforme el nivel de deterioro del habiente es mayor.</field>
+	</record>
+	<record id="habitat_4" model="planta.habitat">
+		<field name="name">Montaña</field>
+		<field name="descripcion">Temperaturas extremas tanto en invierno como en verano.</field>
+	</record>
+</odoo>

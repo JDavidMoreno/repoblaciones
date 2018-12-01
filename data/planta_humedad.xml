@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+	<record id="humedad_arido1" model="planta.humedad">
+		<field name="name">Árido</field>
+		<field name="descripcion">Plantas con alta resistencia a la falta de agua</field>
+	</record>
+	<record id="humedad_arido2" model="planta.humedad">
+		<field name="name">Semiárido</field>
+		<field name="descripcion">Plantas con resistencia a la falta de agua</field>
+	</record>
+	<record id="humedad_arido3" model="planta.humedad">
+		<field name="name">Seco</field>
+		<field name="descripcion">Plantas con resistencia temporal a la falta de agua</field>
+	</record>
+	<record id="humedad_arido4" model="planta.humedad">
+		<field name="name">Intermedio</field>
+		<field name="descripcion">Plantas que soportan algún periodo de falta de agua pero necesitan una humedad constante la mayor parte del tiempo</field>
+	</record>
+	<record id="humedad_arido5" model="planta.humedad">
+		<field name="name">Semihúmedo</field>
+		<field name="descripcion">Plantas con mayor disposición a la humedad</field>
+	</record>
+	<record id="humedad_arido6" model="planta.humedad">
+		<field name="name">Árido</field>
+		<field name="descripcion">Plantas que necesitan una disponibilidad constante de humedad ambiental</field>
+	</record>
+</odoo>
