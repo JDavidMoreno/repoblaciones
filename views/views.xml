@@ -8,9 +8,9 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-          <field name="habitats"/>
           <field name="cantidad"/>
           <field name="coste_produccion"/>
+          <field name="disponibilidad"/>
         </tree>
       </field>
     </record>
@@ -24,5 +24,80 @@
 
     <menuitem id="repoblaciones_main" name="Repoblaciones"/>
     <menuitem id="repoblaciones_plantas" name="Plantas" parent="repoblaciones_main" action="planta_action" sequence="1"/>
+
+    <record id="proyecto_tree" model="ir.ui.view">
+      <field name="name">proyecto.tree</field>
+      <field name="model">proyecto</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="poblacion"/>
+          <field name="inversion"/>
+          <field name="inicio_proyecto"/>
+          <field name="final_proyecto"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="proyecto_form" model="ir.ui.view">
+      <field name="name">proyecto.form</field>
+      <field name="model">proyecto</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="avanzar_estado" type="object" string="Avanzar Proyecto"/>
+            <field name="estado_id" widget="statusbar"/>
+          </header>
+          <sheet>
+            <group col="4">
+              <h1><field name="name"/></h1>
+              <group colspan="2" col="2">
+                <field name="poblacion"/>
+                <field name="provincia"/>
+                <field name="lat"/>
+                <field name="lng"/>
+              </group>
+              <group colspan="2" col="2">
+                <field name="inversion"/>
+                <field name="origen_inversion"/>
+                <field name="inicio_proyecto"/>
+                <field name="final_proyecto"/>
+              </group>
+
+              <separator string="Personal"/>
+              <field name="responsable" />
+              <field name="equipo_trabajadores"/>
+
+              <separator string="Selección de Plantas"/>
+              <field name="proyecto_lines_ids"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
+    <record id="proyecto_action" model="ir.actions.act_window">
+      <field name="name">Proyecto</field>
+      <field name="res_model">proyecto</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="repoblaciones_proyectos" name="Proyectos" parent="repoblaciones_main" sequence="2" action="proyecto_action"/>
+
+    <record id="proyecto_line_tree" model="ir.ui.view">
+      <field name="name">proyecto.line.tree</field>
+      <field name="model">proyecto.line</field>
+      <field name="arch" type="xml">
+        <tree>
+          <!-- Me gustaría que se puediera editar directamente en la linea la cantidad de plantas y quizás hasta el precio -->
+          <field name="name"/>
+          <field name="cantidad"/>
+          <field name="precio_total"/>
+        </tree>
+      </field>
+    </record>
 
 </odoo>

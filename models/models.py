@@ -23,24 +23,74 @@ class Planta(models.Model):
 	_description = "Cada una de las plantas disponibles para una repoblación"
 
 
-	name = fields.Char("Nombre Común")
+	name = fields.Char("Nombre Común", required=True)
 	nombre_científico = fields.Char("Nombre Científico")
-	habitats = fields.Many2many('planta.habitat', 'name', "Habitats")
-	humedad_entorno = fields.Many2many('planta.humedad', 'name', "Humedad")
+	habitats_ids = fields.Many2many('planta.habitat', string="Habitats")
+	humedad_entorno_ids = fields.Many2many('planta.humedad', string="Humedad")
 	cantidad = fields.Integer("Cantidad de Ejemplares")
-	tiempo_desarrollo = fields.Integer("Tiempo desarrollo expresado en días")
+	desarrollo = fields.Integer("Desarrollo", help="Tiempo desarrollo expresado en días")
 	disponibilidad = fields.Selection([('muy_alta','Muy alta'),('alta','Alta'),('media','Media'),('baja','Baja'),('muy_baja','Muy baja')], "Disponibilidad")
 	coste_produccion = fields.Float("Coste en Euros por cada 100 plantas")
 
 
-# class repoblaciones(models.Model):
-#     _name = 'repoblaciones.repoblaciones'
+class ProyectoLine(models.Model):
+	_name = 'proyecto.line'
+	_descripcion = "Linea plantas en proyecto de Reforestación"
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100
+	name = fields.Many2one('planta', "Tipo de Planta")
+	cantidad = fields.Integer("Cantidad")
+	precio_total = fields.Float("Total", compute="_get_total", store=True)
+	proyecto_id = fields.Many2one('proyecto', "Pertenece a ", ondelete="cascade")
+
+	@api.depends('cantidad', 'name')
+	def _get_total(self):
+		for elem in self:
+			elem.precio_total = elem.cantidad * elem.name.coste_produccion
+
+class ProyectoEstado(models.Model):
+	_name = 'proyecto.estado'
+	_description = "Distintos estadíos de un proyecto hasta su terminación"
+	_order = 'sequence'
+
+	name = fields.Char("Estado")
+	sequence = fields.Integer("Secuencia")
+	default = fields.Boolean("Default")
+
+class Proyecto(models.Model):
+	_name = 'proyecto'
+	_description = "Proyecto de Reforestación"
+
+	name = fields.Char("Nombre Proyecto", required=True)
+	poblacion = fields.Char("Poblacion")
+	provincia = fields.Char("Provincia")
+	lat = fields.Float("Latitud", digits=(10,8))
+	lng = fields.Float("Longitud")
+	inversion = fields.Float("Inversión", help="Cantidad en Euros destinada al proyecto")
+	origen_inversion = fields.Char("Origen Inversión", help="Entidad pública o privada que aporta el dinero necesario para el proyecto.")
+	proyecto_lines_ids = fields.One2many('proyecto.line', 'proyecto_id', string="Plantas Escogidas")
+	inicio_proyecto = fields.Date("Fecha Inicio")
+	final_proyecto = fields.Date("Fecha final estimada")
+	responsable = fields.Many2one('res.user', "Responsable")
+	equipo_trabajadores = fields.Many2one('res.partner', "Equipo de Trabajo")
+	estado_id = fields.Many2one('proyecto.estado', "Estado Proyecto")
+
+	@api.model
+	def create(self, vals):
+		estado_id = self.env[proyecto.estado].search([('sequence','=',1)])[0]
+		vals['estado_id'] = estado_id.id 
+		return super(GasProyecto, self).create(vals)
+
+	def avanzar_estado(self):
+		proyecto = self[0]
+		next_sequence = proyecto.estado_id.sequence + 1
+
+		if next_sequence > len(self.env['proyecto.estado']):
+			return False
+		else:
+			next_state = self.env['proyecto.estado'].search([('sequence','=',next_sequence)])[0]
+
+		proyect.estado_id = next_state.id
+
+
+
+

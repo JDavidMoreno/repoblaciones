@@ -30,6 +30,7 @@
     'data': [
         'data/planta_humedad.xml',
         'data/planta_habitat.xml',
+        'data/proyecto_estados.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
