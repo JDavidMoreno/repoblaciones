@@ -2,6 +2,9 @@
 
 from odoo import models, fields, api
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class Habitat(models.Model):
 	_name = 'planta.habitat'
 	_description = "Habitats disponible para cada uno de los tipos de plantas"
@@ -64,32 +67,33 @@ class Proyecto(models.Model):
 	poblacion = fields.Char("Poblacion")
 	provincia = fields.Char("Provincia")
 	lat = fields.Float("Latitud", digits=(10,8))
-	lng = fields.Float("Longitud")
+	lng = fields.Float("Longitud", digits=(10,8))
 	inversion = fields.Float("Inversión", help="Cantidad en Euros destinada al proyecto")
 	origen_inversion = fields.Char("Origen Inversión", help="Entidad pública o privada que aporta el dinero necesario para el proyecto.")
 	proyecto_lines_ids = fields.One2many('proyecto.line', 'proyecto_id', string="Plantas Escogidas")
 	inicio_proyecto = fields.Date("Fecha Inicio")
 	final_proyecto = fields.Date("Fecha final estimada")
-	responsable = fields.Many2one('res.user', "Responsable")
+	responsable = fields.Many2one('res.users', "Responsable")
 	equipo_trabajadores = fields.Many2one('res.partner', "Equipo de Trabajo")
 	estado_id = fields.Many2one('proyecto.estado', "Estado Proyecto")
 
 	@api.model
 	def create(self, vals):
-		estado_id = self.env[proyecto.estado].search([('sequence','=',1)])[0]
+		estado_id = self.env['proyecto.estado'].search([('sequence','=',1)])[0]
 		vals['estado_id'] = estado_id.id 
-		return super(GasProyecto, self).create(vals)
+		return super(Proyecto, self).create(vals)
 
 	def avanzar_estado(self):
+		# Voy por aqui, comprobar con logger que devuelve self[0] y realizar ajustes para que la función funcione
 		proyecto = self[0]
 		next_sequence = proyecto.estado_id.sequence + 1
 
-		if next_sequence > len(self.env['proyecto.estado']):
+		if next_sequence > len(self.env['proyecto.estado'].search([])):
 			return False
 		else:
 			next_state = self.env['proyecto.estado'].search([('sequence','=',next_sequence)])[0]
 
-		proyect.estado_id = next_state.id
+		proyecto.estado_id = next_state.id
 
 
 

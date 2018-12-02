@@ -50,14 +50,16 @@
           </header>
           <sheet>
             <group col="4">
-              <h1><field name="name"/></h1>
-              <group colspan="2" col="2">
+              <group col="2" colspan="4">
+              <field name="name"/>
+              </group>
+              <group col="2" colspan="2">
                 <field name="poblacion"/>
                 <field name="provincia"/>
                 <field name="lat"/>
                 <field name="lng"/>
               </group>
-              <group colspan="2" col="2">
+              <group col="2" colspan="2">
                 <field name="inversion"/>
                 <field name="origen_inversion"/>
                 <field name="inicio_proyecto"/>
@@ -65,8 +67,10 @@
               </group>
 
               <separator string="Personal"/>
-              <field name="responsable" />
-              <field name="equipo_trabajadores"/>
+              <group col="2" colspan="4">
+                <field name="responsable" class="oe_left"/>
+                <field name="equipo_trabajadores" class="oe_left"/>
+              </group>
 
               <separator string="Selección de Plantas"/>
               <field name="proyecto_lines_ids"/>
