@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -50,7 +51,19 @@ class ProyectoLine(models.Model):
 		for elem in self:
 			elem.precio_subtotal = elem.cantidad * elem.name.coste_produccion
 
-	# Check si existen suficientes plantas disponibles
+	@api.constrains('cantidad','name')
+	def _check_and_update_quantity(self):
+		for elem in self:
+			if elem.cantidad > elem.name.cantidad:
+				raise ValidationError(_("La cantidad de plantas seleccionadas es mayor a las disponibles"))
+			else:
+				elem.name.cantidad -= elem.cantidad
+
+	@api.model
+	def unlink(self):
+		if self.cantidad > 0:
+			self.name.cantidad += self.cantidad
+		return super().unlink()
 
 
 class ProyectoEstado(models.Model):
