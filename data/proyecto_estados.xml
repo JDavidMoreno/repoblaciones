@@ -31,4 +31,9 @@
 		<field name="sequence">6</field>
 		<field name="default">False</field>
 	</record>
+	<record id="proyecto_estado_estudio_7" model="proyecto.estado">
+		<field name="name">Cancelado</field>
+		<field name="sequence">8</field>
+		<field name="default">False</field>
+	</record>
 </odoo>

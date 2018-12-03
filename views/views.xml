@@ -45,7 +45,8 @@
       <field name="arch" type="xml">
         <form>
           <header>
-            <button name="avanzar_estado" type="object" string="Avanzar Proyecto"/>
+            <button name="avanzar_estado" type="object" string="Avanzar Proyecto" attrs="{'invisible':[('estado_id','in',(7))]}" />
+            <button name="cancelar_proyecto" type="object" string="Cancelar Proyecto" confirm="¿Desea realmente cancelar este proyecto?" attrs="{'invisible':[('estado_id','in',(7))]}"/>
             <field name="estado_id" widget="statusbar"/>
           </header>
           <sheet>
@@ -69,11 +70,23 @@
               <separator string="Personal"/>
               <group col="2" colspan="4">
                 <field name="responsable" class="oe_left"/>
-                <field name="equipo_trabajadores" class="oe_left"/>
               </group>
 
+              <separator string="Equipo de Trabajadores"/>
+              <field name="equipo_trabajadores"/>
+
               <separator string="Selección de Plantas"/>
-              <field name="proyecto_lines_ids"/>
+              <field name="proyecto_lines_ids">
+                <tree editable="bottom">
+                  <field name="name"/>
+                  <field name="cantidad"/>
+                  <field name="precio_subtotal"/>
+                  <field name="proyecto_id" invisible="True"/>
+                </tree>
+              </field>
+              <group class="oe_subtotal_footer">
+                <field name="precio_total" class="oe_subtotal_footer_separator"/>
+              </group>
             </group>
           </sheet>
         </form>
@@ -96,10 +109,9 @@
       <field name="model">proyecto.line</field>
       <field name="arch" type="xml">
         <tree>
-          <!-- Me gustaría que se puediera editar directamente en la linea la cantidad de plantas y quizás hasta el precio -->
           <field name="name"/>
           <field name="cantidad"/>
-          <field name="precio_total"/>
+          <field name="precio_subtotal"/>
         </tree>
       </field>
     </record>

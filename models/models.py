@@ -42,13 +42,16 @@ class ProyectoLine(models.Model):
 
 	name = fields.Many2one('planta', "Tipo de Planta")
 	cantidad = fields.Integer("Cantidad")
-	precio_total = fields.Float("Total", compute="_get_total", store=True)
+	precio_subtotal = fields.Float("Subtotal", compute="_get_subtotal", store=True)
 	proyecto_id = fields.Many2one('proyecto', "Pertenece a ", ondelete="cascade")
 
 	@api.depends('cantidad', 'name')
-	def _get_total(self):
+	def _get_subtotal(self):
 		for elem in self:
-			elem.precio_total = elem.cantidad * elem.name.coste_produccion
+			elem.precio_subtotal = elem.cantidad * elem.name.coste_produccion
+
+	# Check si existen suficientes plantas disponibles
+
 
 class ProyectoEstado(models.Model):
 	_name = 'proyecto.estado'
@@ -74,8 +77,9 @@ class Proyecto(models.Model):
 	inicio_proyecto = fields.Date("Fecha Inicio")
 	final_proyecto = fields.Date("Fecha final estimada")
 	responsable = fields.Many2one('res.users', "Responsable")
-	equipo_trabajadores = fields.Many2one('res.partner', "Equipo de Trabajo")
+	equipo_trabajadores = fields.Many2many('res.partner', string="Equipo de Trabajo")
 	estado_id = fields.Many2one('proyecto.estado', "Estado Proyecto")
+	precio_total = fields.Float("Precio Total", compute="_get_total", store=True)
 
 	@api.model
 	def create(self, vals):
@@ -88,13 +92,23 @@ class Proyecto(models.Model):
 		proyecto = self[0]
 		next_sequence = proyecto.estado_id.sequence + 1
 
-		if next_sequence > len(self.env['proyecto.estado'].search([])):
+		if next_sequence > len(self.env['proyecto.estado'].search([('name','!=','Cancelado')])):
 			return False
 		else:
 			next_state = self.env['proyecto.estado'].search([('sequence','=',next_sequence)])[0]
 
 		proyecto.estado_id = next_state.id
 
+	def cancelar_proyecto(self):
+		estado_id = self.env['proyecto.estado'].search([('name','=','Cancelado')])
+		self.estado_id = estado_id.id
+
+	@api.depends('proyecto_lines_ids', 'precio_total')
+	def _get_total(self):
+		total = 0
+		for line in self.proyecto_lines_ids:
+			total += line.precio_subtotal
+		self.precio_total = total
 
 
 
