@@ -22,9 +22,7 @@
       <field name="view_type">form</field>
     </record>
 
-    <menuitem id="repoblaciones_main" name="Repoblaciones"/>
-    <menuitem id="repoblaciones_plantas" name="Plantas" parent="repoblaciones_main" action="planta_action" sequence="1"/>
-
+   
     <record id="proyecto_tree" model="ir.ui.view">
       <field name="name">proyecto.tree</field>
       <field name="model">proyecto</field>
@@ -79,22 +77,23 @@
                 <field name="responsable" class="oe_left" string="Nombre"/>
               </group>
 
-              <separator string="Equipo de Trabajadores" attrs="{'invisible':[('estado_id','in',(1,2))]}"/>
-              <group col="2" colspan="4">
-                <field name="equipo_trabajadores" attrs="{'invisible':[('estado_id','in',(1,2))]}" class="oe_left"/>
-              </group>
-
+              <separator string="Equipo de Trabajadores" attrs="{'invisible':[('estado_id','in',(1,2))]}" colspan="4"/>
+                <field name="equipos_trabajadores_lineas" attrs="{'invisible':[('estado_id','in',(1,2))]}"  />
+                <br/>
               <separator string="Selección de Plantas" attrs="{'invisible':[('estado_id','=',1)]}"/>
-              <field name="proyecto_lines_ids" attrs="{'invisible':[('estado_id','=',1)]}">
-                <tree editable="bottom">
-                  <field name="name"/>
-                  <field name="cantidad"/>
-                  <field name="precio_subtotal"/>
-                  <field name="proyecto_id" invisible="True"/>
-                  <field name="currency_id" invisible="True"/>
-                </tree>
-              </field>
+                <field name="proyecto_lines_ids" attrs="{'invisible':[('estado_id','=',1)]}">
+                  <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="coste"/>
+                    <field name="cantidad"/>
+                    <field name="precio_subtotal"/>
+                    <field name="proyecto_id" invisible="True"/>
+                    <field name="currency_id" invisible="True"/>
+                  </tree>
+                </field>
               <group class="oe_subtotal_footer">
+                <field name="subtotal_equipos"/>
+                <field name="subtotal_plantas"/>
                 <field name="precio_total" class="oe_subtotal_footer_separator"/>
               </group>
             </group>
@@ -112,6 +111,8 @@
       <field name="view_type">form</field>
     </record>
 
+    <menuitem id="repoblaciones_main" name="Repoblaciones" action="proyecto_action"/>
+    <menuitem id="repoblaciones_plantas" name="Plantas" parent="repoblaciones_main" action="planta_action" sequence="1"/>
     <menuitem id="repoblaciones_proyectos" name="Proyectos" parent="repoblaciones_main" sequence="2" action="proyecto_action"/>
 
     <record id="proyecto_line_tree" model="ir.ui.view">
@@ -136,7 +137,6 @@
               <group col="2" colspan="2">
                 <field name="name"/>
                 <field name="responsable_equipo"/>
-                <field name="proyecto_id" invisible="True"/>
               </group>
               <group col="2" colspan="2">
                 <field name="coste"/>
@@ -150,6 +150,19 @@
             </group>
           </sheet>
         </form>
+      </field>
+    </record>
+
+    <record id="proyecto_equipo_linea_form" model="ir.ui.view">
+      <field name="name">proyecto.equipo.linea.tree</field>
+      <field name="model">proyecto.equipo.linea</field>
+      <field name="arch" type="xml">
+        <tree editable="bottom">
+          <field name="name"/>
+          <field name="coste_dias"/>
+          <field name="numero_dias"/>
+          <field name="subtotal"/>
+        </tree>
       </field>
     </record>
 
