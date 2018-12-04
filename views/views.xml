@@ -65,23 +65,33 @@
                 <field name="origen_inversion"/>
                 <field name="inicio_proyecto"/>
                 <field name="final_proyecto"/>
+                <field name="currency_id"/>
               </group>
 
-              <separator string="Personal"/>
+              <separator string="Documentos"/>
               <group col="2" colspan="4">
-                <field name="responsable" class="oe_left"/>
+                <field name="estudio_terreno" filename="estudio_terreno_filename" class="oe_left"/>
+                <field name="estudio_terreno_filename" class="oe_left" invisible="True"/>
               </group>
 
-              <separator string="Equipo de Trabajadores"/>
-              <field name="equipo_trabajadores"/>
+              <separator string="Responsable"/>
+              <group col="2" colspan="4">
+                <field name="responsable" class="oe_left" string="Nombre"/>
+              </group>
 
-              <separator string="Selección de Plantas"/>
-              <field name="proyecto_lines_ids">
+              <separator string="Equipo de Trabajadores" attrs="{'invisible':[('estado_id','in',(1,2))]}"/>
+              <group col="2" colspan="4">
+                <field name="equipo_trabajadores" attrs="{'invisible':[('estado_id','in',(1,2))]}" class="oe_left"/>
+              </group>
+
+              <separator string="Selección de Plantas" attrs="{'invisible':[('estado_id','=',1)]}"/>
+              <field name="proyecto_lines_ids" attrs="{'invisible':[('estado_id','=',1)]}">
                 <tree editable="bottom">
                   <field name="name"/>
                   <field name="cantidad"/>
                   <field name="precio_subtotal"/>
                   <field name="proyecto_id" invisible="True"/>
+                  <field name="currency_id" invisible="True"/>
                 </tree>
               </field>
               <group class="oe_subtotal_footer">
@@ -113,6 +123,33 @@
           <field name="cantidad"/>
           <field name="precio_subtotal"/>
         </tree>
+      </field>
+    </record>
+
+    <record id="proyecto_equipo_form" model="ir.ui.view">
+      <field name="name">proyecto.view.form</field>
+      <field name="model">proyecto.equipo</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group col="4">
+              <group col="2" colspan="2">
+                <field name="name"/>
+                <field name="responsable_equipo"/>
+                <field name="proyecto_id" invisible="True"/>
+              </group>
+              <group col="2" colspan="2">
+                <field name="coste"/>
+                <field name="currency_id" invisible="True"/>
+                <field name="color"/>
+              </group>
+              <separator string="Componentes Equipo"/>
+              <field name="componentes"/>
+              <separator string="Notas"/>
+              <field name="notas"/>
+            </group>
+          </sheet>
+        </form>
       </field>
     </record>
 

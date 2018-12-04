@@ -5,3 +5,4 @@ access_repoblaciones_planta,access_repoblaciones_planta,model_planta,,1,1,1,1
 access_repoblaciones_proyecto,access_repoblaciones_proyecto,model_proyecto,,1,1,1,1
 access_repoblaciones_proyecto_line,access_repoblaciones_proyecto_line,model_proyecto_line,,1,1,1,1
 access_repoblaciones_proyecto_estado,access_repoblaciones_proyecto_estado,model_proyecto_estado,,1,1,1,1
+access_repoblaciones_proyecto_equipo,access_repoblaciones_proyecto_equipo,model_proyecto_equipo,,1,1,1,1
