@@ -3,7 +3,7 @@
   <h4>Create and Manage Reforestation Projects</h4>
   <br>
   <p>
-    <a href="https://github.com/JDavidMoreno/repoblaciones/blob/main/LICENSE">
+    <a href="https://github.com/JDavidMoreno/repoblaciones/blob/master/LICENSE">
         <img alt="license" src="https://img.shields.io/badge/license-MIT-green" />
     </a>
     <img alt="python version" src="https://img.shields.io/badge/python-3.5 | 3.6 | 3.7 | 3.8 | 3.9 -blue" />
@@ -16,7 +16,7 @@
 <div align="center">
   <table>
     <tr>
-      <td><img alt="example field just months-years" src="https://github.com/JDavidMoreno/repoblaciones/blob/main/.github/images/request.png" /></td>
+      <td><img alt="example field just months-years" src="https://github.com/JDavidMoreno/repoblaciones/blob/master/.github/images/request.png" /></td>
     </tr>
   </table>
 </div>
@@ -43,11 +43,11 @@ Move this module to your addons folder. Then restart your Odoo server and, while
 
 With it you can create a project, and then include all the information you need, like location, dates, investment, teams, list of plantes needed and so on. Then you can move it to further stages, review the progress of the work, make a valuation, and of course, cancel it at any point.
 
-![stages](https://github.com/JDavidMoreno/repoblaciones/blob/main/.github/images/stages.png)
+![stages](https://github.com/JDavidMoreno/repoblaciones/blob/master/.github/images/stages.png)
 
 Basically a team is a group of contacts with a responsible.
 
-![team](https://github.com/JDavidMoreno/repoblaciones/blob/main/.github/images/team.png)
+![team](https://github.com/JDavidMoreno/repoblaciones/blob/master/.github/images/team.png)
 
 Warning: This module is a little bit buggy at this point. Problably just would need some love for a while, not really a big deal.
 
